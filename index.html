@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0A0A0A">
+  <title>LA SUBASTA TRAMPA LIVE — LEY LERDO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="paper-noise"></div>
+  <header class="masthead">
+    <div class="topline"><span>ARCHIVO DE RESISTENCIA · 1856</span><span>EDICIÓN EN VIVO</span></div>
+    <div class="brand">
+      <div class="brand-stamp">NO<br>SE<br>VENDE</div>
+      <div>
+        <p class="eyebrow">LA HISTORIA NO SE BORRA</p>
+        <h1>LA SUBASTA<br><span>TRAMPA</span> LIVE</h1>
+        <p class="subtitle">LEY LERDO · DESPOJO Y RESISTENCIA INDÍGENA</p>
+      </div>
+    </div>
+    <div class="torn-rule"></div>
+  </header>
+
+  <main id="app" class="shell">
+    <section id="home-screen" class="screen">
+      <div class="intro-copy">
+        <p class="kicker">1856 / TIERRA, DESPOJO, RESISTENCIA</p>
+        <h2>¿QUIÉN SE<br>QUEDA CON<br>LA TIERRA?</h2>
+        <p class="type-copy">OCHO DECISIONES. QUINCE SEGUNDOS. UNA HISTORIA DE DESPOJO.</p>
+      </div>
+      <div class="mode-grid">
+        <button class="mode-card" id="host-mode">
+          <span class="mode-index">01 / ORGANIZA</span>
+          <strong>SOY HOST</strong>
+          <span>Crea la partida y proyecta el PIN.</span>
+          <b class="arrow">↗</b>
+        </button>
+        <button class="mode-card" id="player-mode">
+          <span class="mode-index">02 / PARTICIPA</span>
+          <strong>SOY JUGADOR</strong>
+          <span>Entra con el PIN de tu salón.</span>
+          <b class="arrow">↗</b>
+        </button>
+      </div>
+      <p class="small-print">SIN CUENTAS · SIN CORREOS · SIN DESCARGAS</p>
+    </section>
+
+    <section id="host-setup" class="screen hidden">
+      <button class="back-link" data-home>← VOLVER</button>
+      <p class="kicker">PANEL DE ORGANIZACIÓN / 01</p>
+      <h2>ABRE LA<br>SUBASTA.</h2>
+      <p class="type-copy">CREA UNA SALA Y COMPARTE EL CÓDIGO CON EL SALÓN.</p>
+      <button class="action-button" id="create-room">CREAR PARTIDA <span>↗</span></button>
+      <p id="host-setup-status" class="status-line" aria-live="polite"></p>
+    </section>
+
+    <section id="player-setup" class="screen hidden">
+      <button class="back-link" data-home>← VOLVER</button>
+      <p class="kicker">ACCESO DE PARTICIPANTE / 02</p>
+      <h2>ENTRA A<br>LA RESISTENCIA.</h2>
+      <form id="join-form" class="form-stack">
+        <label for="pin-input">PIN DE 4 NÚMEROS</label>
+        <input id="pin-input" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="0000" required>
+        <label for="name-input">TU NOMBRE</label>
+        <input id="name-input" maxlength="18" autocomplete="nickname" placeholder="¿CÓMO TE LLAMAS?" required>
+        <button class="action-button" type="submit">ENTRAR A LA SALA <span>↗</span></button>
+      </form>
+      <p id="join-status" class="status-line" aria-live="polite"></p>
+    </section>
+
+    <section id="lobby-screen" class="screen hidden">
+      <div class="lobby-head">
+        <div><p class="kicker">SALA ABIERTA / ESPERANDO AL SALÓN</p><h2>QUE ENTRE<br>LA BANDA.</h2></div>
+        <div class="pin-ticket"><small>PIN DE ACCESO</small><strong id="room-pin">----</strong></div>
+      </div>
+      <div class="lobby-meta"><span><b id="player-count">0</b> PARTICIPANTES</span><span>8 PREGUNTAS · 15 SEGUNDOS</span></div>
+      <div id="player-list" class="player-list"><p class="empty-state">TODAVÍA NO HAY NADIE. COMPARTE EL PIN.</p></div>
+      <div id="host-lobby-controls" class="hidden">
+        <button class="action-button" id="start-game">EMPEZAR LA PARTIDA <span>↗</span></button>
+      </div>
+      <p id="lobby-note" class="status-line">ESPERANDO A QUE EL HOST INICIE...</p>
+    </section>
+
+    <section id="game-screen" class="screen hidden">
+      <div class="game-top"><span id="question-number">PREGUNTA 01 / 08</span><span class="timer" id="timer">15</span></div>
+      <div class="timer-track"><div id="timer-fill"></div></div>
+      <p class="kicker" id="question-context">EXPEDIENTE / LEY LERDO</p>
+      <h2 id="question-text">...</h2>
+      <p class="type-copy" id="question-hint">ELIGE TU RESPUESTA ANTES DE QUE SE AGOTE EL TIEMPO.</p>
+      <div id="answer-options" class="answer-grid"></div>
+      <p id="answer-feedback" class="status-line" aria-live="polite"></p>
+      <div id="host-game-controls" class="hidden">
+        <div class="host-live"><span><b id="answered-count">0</b> / <b id="live-count">0</b> RESPUESTAS</span><span>RESPUESTAS EN VIVO</span></div>
+        <button class="action-button" id="next-question">SIGUIENTE PREGUNTA <span>↗</span></button>
+      </div>
+    </section>
+
+    <section id="results-screen" class="screen hidden">
+      <p class="kicker">FIN DEL EXPEDIENTE / RESULTADOS</p>
+      <h2>LA MEMORIA<br>RESISTE.</h2>
+      <p class="type-copy">PUNTUACIÓN FINAL · EL PODIO DEL SALÓN</p>
+      <div id="podium" class="podium"></div>
+      <div id="all-scores" class="all-scores"></div>
+      <button class="action-button hidden" id="new-game">VOLVER AL INICIO <span>↗</span></button>
+      <p class="small-print">LA TIERRA NO ES MERCANCÍA.</p>
+    </section>
+  </main>
+
+  <footer class="footer"><span>LEY LERDO · 1856</span><span>DESPOJO / RESISTENCIA / MEMORIA</span></footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

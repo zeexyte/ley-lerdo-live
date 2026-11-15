@@ -1024,50 +1024,6 @@ async function joinRoom(event) {
 
 
 
-async function startGame() {
-
-  if (!players.length) {
-
-    setStatus("lobby-note", "NECESITAS AL MENOS UN JUGADOR PARA EMPEZAR.", true);
-
-    return;
-
-  }
-
-
-
-  const shuffled = Array.from({ length: QUESTIONS.length }, (_, i) => i)
-
-    .sort(() => Math.random() - 0.5);
-
-  const doubleCount = Math.random() < 0.65 ? 1 : 2;
-
-  const doubleQuestions = shuffled.slice(0, doubleCount).sort((a, b) => a - b);
-
-
-
-  lastCelebratedQuestion = -1;
-
-  podiumRendered = false;
-
-
-
-  await updateDoc(doc(db, "games", roomId), {
-
-    status: "playing",
-
-    currentQuestion: 0,
-
-    questionStartedAt: Timestamp.now(),
-
-    doubleQuestions
-
-  });
-
-}
-
-
-
 function renderQuestion() {
 
 

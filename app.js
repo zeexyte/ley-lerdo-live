@@ -278,7 +278,48 @@ const QUESTIONS = [
 
 ];
 
-
+const CONSEQUENCES = [
+  {
+    AMPARO: "Impugnas la medida por la vía legal.",
+    QUEDARSE: "Permaneces en tu tierra, pero el aviso sigue vigente.",
+    LEVANTARSE: "La tensión aumenta y puede llegar la represión."
+  },
+  {
+    AMPARO: "Denuncias la presión detrás de la oferta.",
+    QUEDARSE: "Rechazas la oferta y conservas tu tierra.",
+    LEVANTARSE: "El conflicto escala antes de agotar otras vías."
+  },
+  {
+    AMPARO: "Exiges pruebas y buscas frenar el despojo.",
+    QUEDARSE: "Permaneces, pero la supuesta deuda sigue sin resolverse.",
+    LEVANTARSE: "La resistencia se organiza y aumenta la tensión."
+  },
+  {
+    AMPARO: "Cuestionas la orden mediante una defensa legal.",
+    QUEDARSE: "Resistes el desalojo y mantienes tu posición.",
+    LEVANTARSE: "La confrontación puede provocar represalias."
+  },
+  {
+    AMPARO: "Buscas protección ante posibles abusos.",
+    QUEDARSE: "Rechazas irte, pero las condiciones siguen iguales.",
+    LEVANTARSE: "Organizas resistencia frente a las condiciones injustas."
+  },
+  {
+    AMPARO: "Intentas frenar la amenaza por la vía legal.",
+    QUEDARSE: "Sigues cultivando pese a la amenaza.",
+    LEVANTARSE: "La protesta abierta puede atraer represalias."
+  },
+  {
+    AMPARO: "Mantienes abierta la defensa legal.",
+    QUEDARSE: "Tu comunidad queda al margen de la organización.",
+    LEVANTARSE: "Te unes a la resistencia de otras comunidades."
+  },
+  {
+    "QUE REGRESE EL EJIDO": "Se recupera la propiedad comunal de la tierra.",
+    "MÁS HACIENDAS": "La concentración de tierras en los hacendados continúa.",
+    "QUE SE VENDA TODO": "La tierra se mantiene bajo un modelo de propiedad individual."
+  }
+];
 
 
 
@@ -1301,8 +1342,7 @@ function renderQuickGuide() {
   panel.innerHTML = `
     <p class="kicker">ANTES DE ABRIR EL EXPEDIENTE</p>
     <h3>GUÍA RÁPIDA DE SUPERVIVENCIA</h3>
-    <p class="guide-intro">Vas a tomar decisiones frente al despojo de tierras. No todas las situaciones se resuelven de la misma manera: lee el contexto y elige tu respuesta.</p>
-    <div class="guide-options">
+<p class="guide-intro">Vas a tomar decisiones frente al despojo de tierras. Cada opción muestra una posible consecuencia según la situación. Lee el contexto, analiza lo que puede ocurrir y elige con cuidado: las descripciones no revelan cuál respuesta es correcta.</p>    <div class="guide-options">
       <article class="guide-option"><span class="guide-symbol">01</span><div><strong>LEVANTARSE</strong><p>Organizarse y resistir colectivamente cuando la situación exige una respuesta de fuerza y unión.</p></div></article>
       <article class="guide-option"><span class="guide-symbol">02</span><div><strong>AMPARO</strong><p>Buscar protección y defensa por la vía legal cuando hay una amenaza, acusación o despojo que impugnar.</p></div></article>
       <article class="guide-option"><span class="guide-symbol">03</span><div><strong>QUEDARSE</strong><p>No abandonar la tierra ni aceptar una oferta o amenaza injusta cuando todavía puedes mantener tu posición.</p></div></article>
@@ -1428,10 +1468,24 @@ function renderQuestion() {
       const btn = document.createElement("button");
       btn.className = "answer-option" + (me?.answer === option && already ? " selected" : "");
       btn.disabled = already || secondsLeft() <= 0;
-      const letter = document.createElement("span");
+            const letter = document.createElement("span");
       letter.className = "option-letter";
       letter.textContent = `${String.fromCharCode(65 + i)} /`;
-      btn.append(letter, document.createTextNode(option));
+
+      const content = document.createElement("div");
+      content.className = "option-content";
+
+      const label = document.createElement("span");
+      label.className = "option-label";
+      label.textContent = option;
+
+      const consequence = document.createElement("small");
+      consequence.className = "answer-consequence";
+      consequence.textContent = CONSEQUENCES[index]?.[option] || "";
+
+      content.append(label, consequence);
+      btn.append(letter, content);
+
       btn.addEventListener("click", () => submitAnswer(option));
       options.appendChild(btn);
     });

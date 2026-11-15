@@ -42,6 +42,8 @@ const screens = ["home-screen","host-setup","player-setup","lobby-screen","game-
 let app, auth, db, user = null, roomId = null, role = null, roomData = null;
 let stopRoom = null, stopPlayers = null, players = [], timerInterval = null;
 let submittedFor = -1, hostGrading = new Set();
+let localQuestionStart = null;
+let lastQuestionStart = null;
 
 function showScreen(id) {
   screens.forEach(s => $(s).classList.toggle("hidden", s !== id));
@@ -76,7 +78,16 @@ function listenToRoom() {
   const roomRef = doc(db, "games", roomId);
   stopRoom = onSnapshot(roomRef, snap => {
     if (!snap.exists()) { setStatus("lobby-note", "ESTA SALA YA NO EXISTE.", true); return; }
-    roomData = snap.data();
+    const newData = snap.data();
+
+const newStart = newData.questionStartedAt?.toMillis?.() ?? null;
+
+if (newStart !== lastQuestionStart) {
+  lastQuestionStart = newStart;
+  localQuestionStart = Date.now();
+}
+
+roomData = newData;;
     if (roomData.status === "lobby") showScreen("lobby-screen");
     else if (roomData.status === "playing") { showScreen("game-screen"); renderQuestion(); }
     else if (roomData.status === "finished") { showScreen("results-screen"); renderResults(); }
@@ -191,8 +202,10 @@ function renderQuestion() {
   startTimer();
 }
 function secondsLeft() {
-  const start = roomData?.questionStartedAt?.toMillis ? roomData.questionStartedAt.toMillis() : Date.now();
-  return Math.max(0, 15 - (Date.now() - start) / 1000);
+  if (localQuestionStart === null) return 15;
+
+  const elapsed = (Date.now() - localQuestionStart) / 1000;
+  return Math.max(0, 15 - elapsed);
 }
 function startTimer() {
   if (timerInterval) clearInterval(timerInterval);

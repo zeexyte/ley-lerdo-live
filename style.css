@@ -35,8 +35,10 @@ h1 span { color:var(--red); }
 .kicker { color:var(--red); margin:0 0 13px; }
 h2 { font-size:clamp(40px, 8vw, 76px); line-height:.91; letter-spacing:-1px; margin:0 0 17px; }
 .type-copy { max-width:600px; font-size:13px; line-height:1.65; }
-.mode-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:30px 0 24px; }
+.mode-grid { display:grid; grid-template-columns:1fr; gap:14px; margin:30px 0 24px; max-width:680px; }
 .mode-card { position:relative; text-align:left; min-height:190px; padding:22px; color:var(--bone); background:transparent; border:2px solid var(--bone); cursor:pointer; font:inherit; transition:.15s; }
+.join-card { min-height:220px; padding:28px; border-width:3px; box-shadow:7px 7px 0 var(--red); }
+.join-card strong { font-size:clamp(30px,5vw,48px); }
 .mode-card:hover { background:var(--red); border-color:var(--red); transform:translate(-3px,-3px); box-shadow:6px 6px 0 var(--bone); }
 .mode-index { display:block; margin-bottom:22px; }
 .mode-card strong { display:block; font-size:clamp(25px,4vw,38px); line-height:1; margin-bottom:10px; }
@@ -44,6 +46,9 @@ h2 { font-size:clamp(40px, 8vw, 76px); line-height:.91; letter-spacing:-1px; mar
 .arrow { position:absolute; right:18px; bottom:12px; color:var(--red); font-size:28px; }
 .mode-card:hover .arrow { color:var(--bone); }
 .small-print { color:rgba(232,227,217,.62); font-size:10px; }
+.host-access-wrap { margin-top:28px; }
+.host-access-link { border:0; padding:8px 0; background:none; color:rgba(232,227,217,.48); text-decoration:underline; text-underline-offset:4px; font:10px var(--type); letter-spacing:.7px; cursor:pointer; }
+.host-access-link:hover,.host-access-link:focus-visible { color:var(--red); }
 button,input { font:inherit; }
 .back-link { border:0; background:none; color:var(--bone); padding:0; margin-bottom:30px; cursor:pointer; font-size:12px; }
 .back-link:hover { color:var(--red); }
@@ -90,17 +95,56 @@ button,input { font:inherit; }
 .score-row b { color:var(--red); font:700 18px var(--display); }
 .footer { padding:18px 0 24px; border-top:1px solid rgba(232,227,217,.35); color:rgba(232,227,217,.65); font-size:9px; }
 @media(max-width:600px) {
+  html, body { min-width:320px; }
   .masthead,.shell,.footer { width:calc(100% - 28px); }
-  .brand { gap:15px; padding:22px 0 17px; }
-  .brand-stamp { font-size:17px; border-width:3px; }
-  .subtitle { font-size:9px; letter-spacing:1px; }
-  .mode-grid { grid-template-columns:1fr; }
-  .mode-card { min-height:145px; }
-  .lobby-head { align-items:flex-start; flex-direction:column; }
-  .pin-ticket { align-self:flex-start; }
-  .lobby-meta { font-size:9px; }
-  .podium { gap:6px; }
-  .podium-card { padding:12px 4px; }
-  .podium-name { font-size:11px; }
-  .topline,.footer { font-size:8px; letter-spacing:.8px; }
+  .masthead { padding-top:14px; }
+  .brand { gap:12px; padding:20px 0 16px; align-items:flex-start; }
+  .brand-stamp { font-size:15px; border-width:3px; padding:7px 8px; flex:0 0 auto; }
+  h1 { font-size:clamp(32px,9vw,48px); line-height:.94; }
+  .subtitle { font-size:8px; letter-spacing:.7px; line-height:1.5; }
+  .eyebrow,.kicker { font-size:9px; letter-spacing:1px; }
+  .shell { min-height:55vh; padding:25px 0 36px; }
+  h2 { font-size:clamp(37px,11vw,58px); line-height:.95; overflow-wrap:anywhere; }
+  .type-copy { font-size:12px; line-height:1.55; }
+  .mode-grid { grid-template-columns:1fr; margin:22px 0 18px; }
+  .mode-card { min-height:155px; padding:19px; }
+  .join-card { min-height:185px; padding:22px 18px; }
+  .mode-index { margin-bottom:18px; font-size:9px; }
+  .mode-card strong { font-size:clamp(27px,8vw,38px); }
+  .host-access-wrap { margin-top:22px; }
+  .host-access-link { min-height:40px; font-size:10px; }
+  .action-button { padding:16px 14px; font-size:17px; min-height:54px; }
+  .back-link { min-height:42px; margin-bottom:18px; }
+  .form-stack { gap:8px; margin-top:20px; }
+  .form-stack input { min-height:52px; padding:12px; font-size:20px; }
+  .lobby-head { align-items:flex-start; flex-direction:column; gap:12px; }
+  .pin-ticket { align-self:flex-start; min-width:150px; padding:10px 15px; }
+  .pin-ticket strong { font-size:38px; }
+  .lobby-meta,.host-live { font-size:8px; gap:8px; flex-wrap:wrap; line-height:1.5; }
+  .player-list { grid-template-columns:repeat(auto-fit,minmax(125px,1fr)); }
+  .game-top { font-size:13px; }
+  .timer { font-size:34px; }
+  .timer-track { margin-bottom:20px; }
+  #question-text { font-size:clamp(29px,8vw,43px); line-height:1; }
+  .answer-grid { gap:9px; margin:18px 0; }
+  .answer-option { min-height:58px; padding:13px 12px; font-size:17px; line-height:1.25; overflow-wrap:anywhere; }
+  .podium { gap:5px; margin:20px 0; }
+  .podium-card { padding:10px 4px; }
+  .podium-card.first { min-height:145px; }
+  .podium-card.second { min-height:120px; }
+  .podium-card.third { min-height:100px; }
+  .podium-rank { font-size:29px; }
+  .podium-name { font-size:10px; }
+  .podium-score { font-size:17px; }
+  .score-row { font-size:11px; gap:8px; }
+  .score-row b { font-size:16px; }
+  .topline,.footer { font-size:7px; letter-spacing:.5px; }
+  .footer { gap:8px; }
+}
+@media(min-width:601px) and (max-width:850px) {
+  .masthead,.shell,.footer { width:calc(100% - 48px); }
+  #question-text { font-size:clamp(38px,6vw,54px); }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; transition-duration:.01ms !important; }
 }
